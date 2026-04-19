@@ -1,0 +1,83 @@
+.invoice-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin-bottom: 16px;
+
+  ion-item {
+    --padding-start: 16px;
+    --padding-end: 16px;
+    padding-top: 8px;
+    
+    h2 {
+      font-weight: 800;
+      color: var(--ion-color-dark);
+    }
+    p {
+      font-size: 0.85rem;
+    }
+  }
+
+  ion-card-content {
+    padding-top: 0;
+  }
+}
+
+.invoice-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid var(--ion-color-light);
+  padding-top: 12px;
+
+  .client-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--ion-color-medium);
+    font-size: 0.95rem;
+    font-weight: 500;
+    
+    ion-icon {
+      font-size: 1.2rem;
+    }
+  }
+
+  .amount-info {
+    text-align: right;
+    p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--ion-color-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    h3 {
+      margin: 2px 0 0 0;
+      font-weight: 800;
+      font-size: 1.4rem;
+      color: var(--ion-color-primary);
+    }
+  }
+}
+
+.empty-state {
+  margin-top: 50px;
+  color: var(--ion-color-medium);
+  
+  ion-icon {
+    font-size: 4rem;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 1.2rem;
+  }
+}
+
+ion-badge {
+  padding: 6px 10px;
+  border-radius: 6px;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}

@@ -1,0 +1,73 @@
+/** Ionic CSS Variables **/
+:root {
+  /** medical primary **/
+  --ion-color-primary: #00AFC4;
+  --ion-color-primary-rgb: 0, 175, 196;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #009aac;
+  --ion-color-primary-tint: #1ab7ca;
+
+  /** medical secondary **/
+  --ion-color-secondary: #E0F7FA;
+  --ion-color-secondary-rgb: 224, 247, 250;
+  --ion-color-secondary-contrast: #000000;
+  --ion-color-secondary-contrast-rgb: 0, 0, 0;
+  --ion-color-secondary-shade: #c5d9dc;
+  --ion-color-secondary-tint: #e3f8fb;
+
+  /** background - soft medical white **/
+  --ion-background-color: #f8fcfd;
+  --ion-background-color-rgb: 248, 252, 253;
+  --ion-text-color: #2c3e50;
+  --ion-text-color-rgb: 44, 62, 80;
+
+  /** border color **/
+  --ion-item-background: #ffffff;
+}
+
+.ion-color-medical {
+  --ion-color-base: var(--ion-color-primary);
+  --ion-color-base-rgb: var(--ion-color-primary-rgb);
+  --ion-color-contrast: var(--ion-color-primary-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-primary-contrast-rgb);
+  --ion-color-shade: var(--ion-color-primary-shade);
+  --ion-color-tint: var(--ion-color-primary-tint);
+}
+
+/* Dark Mode Palette */
+.dark {
+  --ion-color-primary: #00AFC4;
+  --ion-color-primary-rgb: 0, 175, 196;
+  --ion-color-primary-contrast: #ffffff;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #009aac;
+  --ion-color-primary-tint: #1ab7ca;
+
+  --ion-color-secondary: #00373E;
+  --ion-color-secondary-rgb: 0, 55, 62;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #003036;
+  --ion-color-secondary-tint: #1a4b51;
+
+  --ion-background-color: #0d1117;
+  --ion-background-color-rgb: 13, 17, 23;
+
+  --ion-text-color: #e6edf3;
+  --ion-text-color-rgb: 230, 237, 243;
+
+  --ion-item-background: #161b22;
+  --ion-card-background: #1c2128;
+  
+  --ion-border-color: #30363d;
+}
+
+.dark ion-content {
+  --background: #0d1117;
+}
+
+.dark ion-list, .dark ion-item {
+  --background: #161b22;
+  --color: #e6edf3;
+}

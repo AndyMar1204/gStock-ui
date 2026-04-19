@@ -1,0 +1,68 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Historique des Factures</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="loadInvoices()">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Loading Skeletons -->
+  <ion-list *ngIf="loading">
+    <ion-item *ngFor="let i of [1,2,3,4,5]">
+      <ion-label>
+        <ion-skeleton-text animated style="width: 40%"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+      </ion-label>
+      <ion-skeleton-text animated slot="end" style="width: 50px"></ion-skeleton-text>
+    </ion-item>
+  </ion-list>
+
+  <!-- Invoices List -->
+  <ion-list *ngIf="!loading">
+    <ion-card *ngFor="let invoice of invoices" class="invoice-card">
+      <ion-item lines="none">
+        <ion-icon slot="start" 
+          [name]="invoice.type === 'SALE' ? 'receipt-outline' : 'document-outline'"
+          [color]="invoice.type === 'SALE' ? 'success' : 'warning'">
+        </ion-icon>
+        <ion-label>
+          <h2>{{ invoice.invoiceNumber || 'Facture #' + invoice.id }}</h2>
+          <p>{{ invoice.date | date:'dd/MM/yyyy HH:mm' }}</p>
+        </ion-label>
+        <ion-badge slot="end" [color]="invoice.type === 'SALE' ? 'success' : 'warning'">
+          {{ invoice.type }}
+        </ion-badge>
+      </ion-item>
+
+      <ion-card-content>
+        <div class="invoice-info">
+          <div class="client-info">
+            <ion-icon name="person-outline"></ion-icon>
+            <span>{{ invoice.client.name }}</span>
+          </div>
+          <div class="amount-info">
+            <p>Total</p>
+            <h3>{{ (invoice.totalAmount || 0) | currency:'USD':'symbol' }}</h3>
+          </div>
+        </div>
+        
+        <ion-button expand="block" fill="outline" color="primary" class="ion-margin-top" (click)="downloadPdf(invoice)">
+          <ion-icon slot="start" name="download-outline"></ion-icon>
+          Télécharger PDF
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <div *ngIf="invoices.length === 0" class="ion-text-center ion-padding empty-state">
+      <ion-icon name="document-text-outline"></ion-icon>
+      <p>Aucune facture trouvée</p>
+    </div>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,59 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="background">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/login" color="primary"></ion-back-button>
+    </ion-buttons>
+    <ion-title mode="ios" color="primary">Inscription</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background" class="ion-padding">
+  <div class="register-container">
+    <div class="logo-section ion-text-center">
+      <ion-icon name="person-add-outline" color="primary" class="main-logo"></ion-icon>
+      <h1 class="welcome-text">Nouveau Compte</h1>
+      <p class="subtitle-text">Rejoignez 360Diagnostics-SM</p>
+    </div>
+
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      <ion-row>
+        <ion-col size="6">
+          <ion-item lines="full" class="custom-item">
+            <ion-input label="Prénom" labelPlacement="stacked" type="text" formControlName="firstname" placeholder="Jean"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item lines="full" class="custom-item">
+            <ion-input label="Nom" labelPlacement="stacked" type="text" formControlName="lastname" placeholder="Dupont"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+
+      <ion-item lines="full" class="ion-margin-top custom-item">
+        <ion-input label="Email Professionnel" labelPlacement="stacked" type="email" formControlName="email" placeholder="jean.dupont@360diagnostics.com"></ion-input>
+      </ion-item>
+
+      <ion-item lines="full" class="ion-margin-top custom-item">
+        <ion-input label="Mot de passe" labelPlacement="stacked" type="password" formControlName="password" placeholder="••••••••"></ion-input>
+      </ion-item>
+
+      <ion-item lines="full" class="ion-margin-top custom-item">
+        <ion-select label="Rôle de l'utilisateur" labelPlacement="stacked" formControlName="role" interface="popover" placeholder="Sélectionner un rôle">
+          <ion-select-option value="USER">Utilisateur (Standard)</ion-select-option>
+          <ion-select-option value="ADMIN">Administrateur</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-button expand="block" shape="round" type="submit" [disabled]="registerForm.invalid" class="register-btn ion-margin-top">
+        Créer mon compte
+      </ion-button>
+    </form>
+
+    <div class="ion-text-center ion-margin-top">
+      <p>Déjà inscrit ?</p>
+      <ion-button fill="clear" color="primary" routerLink="/login">
+        Se Connecter
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

@@ -1,0 +1,88 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Gestion de Stock</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="loadData()">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  
+  <ion-toolbar>
+    <ion-searchbar 
+      placeholder="Rechercher un produit..." 
+      (ionInput)="onSearchChange($event)"
+      [debounce]="300">
+    </ion-searchbar>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-item lines="none">
+      <ion-label>Filtrer par catégorie</ion-label>
+      <ion-select placeholder="Toutes" (ionChange)="onCategoryChange($event)">
+        <ion-select-option [value]="undefined">Toutes</ion-select-option>
+        <ion-select-option *ngFor="let cat of categories" [value]="cat.id">
+          {{ cat.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Loading Skeletons -->
+  <ion-list *ngIf="loading">
+    <ion-item *ngFor="let i of [1,2,3,4,5,6]">
+      <ion-thumbnail slot="start">
+        <ion-skeleton-text animated></ion-skeleton-text>
+      </ion-thumbnail>
+      <ion-label>
+        <ion-skeleton-text animated style="width: 50%"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 80%"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Product List -->
+  <ion-list *ngIf="!loading">
+    <ion-item-sliding *ngFor="let product of filteredProducts">
+      <ion-item detail="true">
+        <ion-thumbnail slot="start" class="product-thumb">
+          <div class="thumb-init">{{ product.name.charAt(0) }}</div>
+        </ion-thumbnail>
+        <ion-label>
+          <h2>{{ product.name }}</h2>
+          <p>{{ product.description }}</p>
+          <p class="product-price">{{ product.price | currency:'USD':'symbol' }}</p>
+        </ion-label>
+        <ion-badge slot="end" [color]="product.quantity > 5 ? 'success' : 'danger'">
+          Stock: {{ product.quantity }}
+        </ion-badge>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="primary">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-item-option>
+        <ion-item-option color="danger">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+
+    <div *ngIf="filteredProducts.length === 0" class="ion-text-center ion-padding empty-state">
+      <ion-icon name="search-outline"></ion-icon>
+      <p>Aucun produit trouvé</p>
+    </div>
+  </ion-list>
+
+  <!-- Add FAB -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openAddModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

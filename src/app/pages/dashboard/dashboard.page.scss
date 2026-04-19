@@ -1,0 +1,83 @@
+.kpi-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  margin: 8px 0;
+
+  ion-card-content {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+  }
+
+  .kpi-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16px;
+    font-size: 2rem;
+    color: white;
+  }
+
+  .kpi-data {
+    p {
+      margin: 0;
+      font-size: 0.9rem;
+      color: var(--ion-color-medium);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    h2 {
+      margin: 4px 0 0 0;
+      font-weight: 800;
+      font-size: 1.8rem;
+    }
+  }
+}
+
+.revenue-card {
+  .kpi-icon {
+    background: linear-gradient(135deg, #3880ff 0%, #3dc2ff 100%);
+  }
+}
+
+.invoices-card {
+  .kpi-icon {
+    background: linear-gradient(135deg, #2dd36f 0%, #90e0ef 100%);
+  }
+}
+
+.clients-card {
+  .kpi-icon {
+    background: linear-gradient(135deg, #ffc409 0%, #ffd54f 100%);
+  }
+}
+
+.chart-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  height: 100%;
+
+  ion-card-title {
+    font-weight: 700;
+  }
+}
+
+.alert-card {
+  border-radius: 16px;
+  border-left: 5px solid var(--ion-color-danger);
+
+  ion-card-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+  }
+}
+
+canvas {
+  width: 100% !important;
+  max-height: 300px;
+}

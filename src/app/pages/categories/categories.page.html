@@ -1,0 +1,50 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Gestion des Catégories</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="loadCategories()">
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Loading Skeletons -->
+  <ion-list *ngIf="loading">
+    <ion-item *ngFor="let i of [1,2,3,4,5]">
+      <ion-label>
+        <ion-skeleton-text animated style="width: 60%"></ion-skeleton-text>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- Categories List -->
+  <ion-list *ngIf="!loading">
+    <ion-item *ngFor="let cat of categories">
+      <ion-icon name="folder-outline" slot="start" color="primary"></ion-icon>
+      <ion-label>
+        <h2>{{ cat.name }}</h2>
+        <p>Identifiant: #{{ cat.id }}</p>
+      </ion-label>
+      <ion-button slot="end" fill="clear" color="danger">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+
+    <div *ngIf="categories.length === 0" class="ion-text-center ion-padding empty-state">
+      <ion-icon name="list-outline"></ion-icon>
+      <p>Aucune catégorie trouvée</p>
+    </div>
+  </ion-list>
+
+  <!-- Add FAB -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openAddAlert()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

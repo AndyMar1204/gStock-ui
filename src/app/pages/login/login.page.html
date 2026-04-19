@@ -1,0 +1,48 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="background">
+    <ion-title mode="ios" color="primary">360Diagnostics-SM</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="background" class="ion-padding">
+  <div class="login-container">
+    <div class="logo-section ion-text-center">
+      <ion-icon name="medkit-outline" color="primary" class="main-logo"></ion-icon>
+      <h1 class="welcome-text">Bienvenue</h1>
+      <p class="subtitle-text">Connectez-vous pour gérer votre stock médical</p>
+    </div>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="ion-margin-top">
+      <ion-item lines="full" class="ion-margin-bottom custom-item">
+        <ion-input label="Email Professionnel" labelPlacement="stacked" type="email" formControlName="email" placeholder="nom@360diagnostics.com"></ion-input>
+      </ion-item>
+      <div class="error-msg" *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+        Veuillez entrer un email valide.
+      </div>
+
+      <ion-item lines="full" class="ion-margin-bottom custom-item">
+        <ion-input label="Mot de passe" labelPlacement="stacked" type="password" formControlName="password" placeholder="••••••••"></ion-input>
+      </ion-item>
+      <div class="error-msg" *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+        Le mot de passe doit comporter au moins 6 caractères.
+      </div>
+
+      <div class="ion-text-end forgot-link">
+        <ion-button fill="clear" size="small" routerLink="/forgot-password" color="primary">
+          Mot de passe oublié ?
+        </ion-button>
+      </div>
+
+      <ion-button expand="block" shape="round" type="submit" [disabled]="loginForm.invalid" class="login-btn ion-margin-top">
+        Se Connecter
+      </ion-button>
+    </form>
+
+    <div class="ion-text-center ion-margin-top">
+      <p>Pas encore de compte ?</p>
+      <ion-button fill="clear" color="primary" routerLink="/register">
+        Créer un compte
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

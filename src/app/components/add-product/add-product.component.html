@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Nouveau Produit</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="form-container">
+    <ion-item lines="full" class="ion-margin-bottom">
+      <ion-label position="stacked">Nom du Produit *</ion-label>
+      <ion-input [(ngModel)]="product.name" placeholder="Ex: Paracétamol 500mg" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full" class="ion-margin-bottom">
+      <ion-label position="stacked">Description</ion-label>
+      <ion-textarea [(ngModel)]="product.description" placeholder="Description courte du produit..."></ion-textarea>
+    </ion-item>
+
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item lines="full" class="ion-margin-bottom">
+            <ion-label position="stacked">Prix (USD) *</ion-label>
+            <ion-input type="number" [(ngModel)]="product.price" placeholder="0.00" min="0"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item lines="full" class="ion-margin-bottom">
+            <ion-label position="stacked">Quantité *</ion-label>
+            <ion-input type="number" [(ngModel)]="product.quantity" placeholder="0" min="0"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-item lines="full" class="ion-margin-bottom">
+      <ion-label position="stacked">Catégorie *</ion-label>
+      <ion-select [(ngModel)]="product.categoryId" interface="action-sheet" placeholder="Sélectionner une catégorie">
+        <ion-select-option *ngFor="let cat of categories" [value]="cat.id">
+          {{ cat.name }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <div class="action-buttons ion-margin-top">
+      <ion-button expand="block" (click)="onAddProduct()" class="save-btn">
+        <ion-icon slot="start" name="save-outline"></ion-icon>
+        ENREGISTRER LE PRODUIT
+      </ion-button>
+      <ion-button expand="block" fill="clear" color="medium" (click)="dismiss()">
+        Annuler
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

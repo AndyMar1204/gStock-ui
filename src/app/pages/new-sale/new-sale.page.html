@@ -1,0 +1,133 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Nouvelle Vente</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid>
+    <ion-row>
+      <!-- Left Column: Product Search & Cart -->
+      <ion-col size="12" size-lg="8">
+        <ion-card class="search-card">
+          <ion-card-header>
+            <ion-card-title>Rechercher des Produits</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-searchbar 
+              placeholder="Nom du produit..." 
+              [(ngModel)]="searchTerm"
+              (ionInput)="onSearchChange($event)"
+              [debounce]="300">
+            </ion-searchbar>
+            
+            <ion-list *ngIf="filteredProducts.length > 0" class="search-results">
+              <ion-item *ngFor="let p of filteredProducts" (click)="addToCart(p)" button>
+                <ion-label>
+                  <h3>{{ p.name }}</h3>
+                  <p>{{ p.price | currency:'USD':'symbol' }} | Stock: {{ p.quantity }}</p>
+                </ion-label>
+                <ion-icon name="add-circle-outline" slot="end" color="primary"></ion-icon>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="cart-card">
+          <ion-card-header>
+            <ion-card-title>Panier</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list lines="full">
+              <ion-item *ngFor="let item of cart; let i = index">
+                <ion-label>
+                  <h3>{{ item.productName }}</h3>
+                  <p>{{ item.unitPrice | currency:'USD':'symbol' }} / unité</p>
+                </ion-label>
+                
+                <div slot="end" class="quantity-controls">
+                  <ion-button fill="clear" (click)="updateQuantity(i, -1)">
+                    <ion-icon name="remove-circle-outline"></ion-icon>
+                  </ion-button>
+                  <span class="quantity">{{ item.quantity }}</span>
+                  <ion-button fill="clear" (click)="updateQuantity(i, 1)">
+                    <ion-icon name="add-circle-outline"></ion-icon>
+                  </ion-button>
+                </div>
+                
+                <ion-label slot="end" class="ion-text-right subtotal">
+                  {{ (item.unitPrice! * item.quantity) | currency:'USD':'symbol' }}
+                </ion-label>
+                
+                <ion-button slot="end" fill="clear" color="danger" (click)="removeFromCart(i)">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </ion-button>
+              </ion-item>
+            </ion-list>
+            
+            <div *ngIf="cart.length === 0" class="ion-text-center ion-padding empty-cart">
+              <ion-icon name="cart-outline"></ion-icon>
+              <p>Votre panier est vide</p>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Right Column: Client & Total -->
+      <ion-col size="12" size-lg="4">
+        <ion-card class="client-card">
+          <ion-card-header>
+            <ion-card-title>Informations Client</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-item>
+              <ion-label position="stacked">Nom du client *</ion-label>
+              <ion-input [(ngModel)]="client.name" placeholder="Ex: Jean Dupont"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Téléphone *</ion-label>
+              <ion-input [(ngModel)]="client.phone" type="tel" placeholder="+243..."></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Email</ion-label>
+              <ion-input [(ngModel)]="client.email" type="email" placeholder="client@exemple.com"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Adresse</ion-label>
+              <ion-textarea [(ngModel)]="client.address" placeholder="Adresse complète..."></ion-textarea>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <ion-card class="summary-card">
+          <ion-card-header>
+            <ion-card-title>Résumé</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list lines="none">
+              <ion-item>
+                <ion-label>Type de document</ion-label>
+                <ion-segment [(ngModel)]="invoiceType" color="primary">
+                  <ion-segment-button value="SALE">VENTE</ion-segment-button>
+                  <ion-segment-button value="PROFORMA">PROFORMA</ion-segment-button>
+                </ion-segment>
+              </ion-item>
+              
+              <div class="total-section">
+                <span>TOTAL</span>
+                <h2>{{ getTotal() | currency:'USD':'symbol' }}</h2>
+              </div>
+            </ion-list>
+            
+            <ion-button expand="block" color="primary" class="ion-margin-top action-btn" (click)="validateAndSubmit()">
+              VALIDER LA {{ invoiceType === 'SALE' ? 'FACTURE' : 'PROFORMA' }}
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
