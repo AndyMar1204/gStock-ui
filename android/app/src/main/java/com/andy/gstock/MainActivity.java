@@ -1,4 +1,4 @@
-package ionic.app.base;
+package com.andy.gstock;
 
 import com.getcapacitor.BridgeActivity;
 

@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  gstock-ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gstock-ui
+    ports:
+      - "8100:80"
+    restart: always
+    networks:
+      - gstock-network
+
+networks:
+  gstock-network:
+    driver: bridge
