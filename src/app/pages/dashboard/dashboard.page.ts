@@ -55,10 +55,10 @@ export class DashboardPage implements OnInit, AfterViewInit {
     this.salesChart = new Chart(this.salesChartRef.nativeElement, {
       type: 'line',
       data: {
-        labels: this.stats.salesHistory.map(s => s.date),
+        labels: this.stats.salesHistory.map(s => s.label),
         datasets: [{
           label: 'Ventes (USD)',
-          data: this.stats.salesHistory.map(s => s.amount),
+          data: this.stats.salesHistory.map(s => s.value),
           borderColor: '#3880ff',
           backgroundColor: 'rgba(56, 128, 255, 0.1)',
           fill: true,
@@ -80,9 +80,9 @@ export class DashboardPage implements OnInit, AfterViewInit {
     this.productsChart = new Chart(this.productsChartRef.nativeElement, {
       type: 'doughnut',
       data: {
-        labels: this.stats.topProducts.map(p => p.name),
+        labels: this.stats.topProducts.map(p => p.label),
         datasets: [{
-          data: this.stats.topProducts.map(p => p.quantity),
+          data: this.stats.topProducts.map(p => p.value),
           backgroundColor: [
             '#3880ff', '#3dc2ff', '#5260ff', '#2dd36f', '#ffc409', '#eb445a'
           ]
