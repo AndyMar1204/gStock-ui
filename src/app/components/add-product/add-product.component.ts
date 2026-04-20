@@ -2,12 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, ToastController, LoadingController } from '@ionic/angular';
 import { ProductService } from '../../services/product.service';
 import { Product, Category } from '../../models/product.model';
-
+import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-add-product',
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss'],
-  standalone: false
+  standalone: true,
+  imports: [IonicModule, FormsModule, CommonModule]
 })
 export class AddProductComponent implements OnInit {
   product: Product = {

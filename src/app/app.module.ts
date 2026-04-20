@@ -12,8 +12,9 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { AddProductComponent } from './components/add-product/add-product.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
+
 @NgModule({
-  declarations: [AppComponent, AddProductComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule, 
     IonicModule.forRoot(), 
