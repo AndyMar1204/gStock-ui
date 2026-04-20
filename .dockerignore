@@ -8,12 +8,5 @@ www
 .gitignore
 .editorconfig
 .eslintrc.json
-ionic.config.json
-ionic.starter.json
-karma.conf.js
-angular.json
-tsconfig*.json
-package-lock.json
-capacitor.config.ts
 android
 ios
