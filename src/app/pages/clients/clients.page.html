@@ -1,0 +1,113 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Gestion des Clients</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="toggleForm()" [color]="showForm ? 'danger' : 'primary'">
+        <ion-icon [name]="showForm ? 'close-outline' : 'add-outline'" slot="start"></ion-icon>
+        {{ showForm ? 'Annuler' : 'Ajouter' }}
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Client Form Section -->
+  <div class="form-container" *ngIf="showForm">
+    <ion-card class="premium-card">
+      <ion-card-header>
+        <ion-card-title>{{ isEditing ? 'Modifier Client' : 'Nouveau Client' }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="clientForm" (ngSubmit)="saveClient()">
+          <ion-item lines="full" class="premium-input">
+            <ion-label position="stacked">Nom Complet <ion-text color="danger">*</ion-text></ion-label>
+            <ion-input formControlName="name" placeholder="Ex: Jean Dupont"></ion-input>
+          </ion-item>
+          
+          <ion-row>
+            <ion-col size="12" size-md="6">
+              <ion-item lines="full" class="premium-input">
+                <ion-label position="stacked">Téléphone <ion-text color="danger">*</ion-text></ion-label>
+                <ion-input formControlName="phone" type="tel" placeholder="+243..."></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12" size-md="6">
+              <ion-item lines="full" class="premium-input">
+                <ion-label position="stacked">Email</ion-label>
+                <ion-input formControlName="email" type="email" placeholder="client@exemple.com"></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+
+          <ion-item lines="full" class="premium-input">
+            <ion-label position="stacked">Adresse</ion-label>
+            <ion-textarea formControlName="address" placeholder="Adresse complète..."></ion-textarea>
+          </ion-item>
+
+          <div class="ion-padding-top">
+            <ion-button expand="block" type="submit" [disabled]="clientForm.invalid" class="save-btn">
+              <ion-icon name="save-outline" slot="start"></ion-icon>
+              {{ isEditing ? 'Mettre à jour' : 'Enregistrer le client' }}
+            </ion-button>
+          </div>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Search and Stats -->
+  <div class="header-section" *ngIf="!showForm">
+    <ion-searchbar 
+      placeholder="Rechercher par nom ou téléphone..." 
+      [(ngModel)]="searchTerm" 
+      (ionInput)="filterClients()"
+      class="premium-search">
+    </ion-searchbar>
+    
+    <div class="stats-badge">
+      <ion-badge color="primary">{{ filteredClients.length }} Clients</ion-badge>
+    </div>
+  </div>
+
+  <!-- Clients List Section -->
+  <div class="list-section" *ngIf="!showForm">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6" size-lg="4" *ngFor="let client of filteredClients">
+          <ion-card class="client-card">
+            <ion-card-content>
+              <div class="client-info">
+                <div class="avatar-circle">
+                  {{ client.name.charAt(0) | uppercase }}
+                </div>
+                <div class="details">
+                  <h3>{{ client.name }}</h3>
+                  <p class="phone"><ion-icon name="call-outline"></ion-icon> {{ client.phone }}</p>
+                  <p class="email" *ngIf="client.email"><ion-icon name="mail-outline"></ion-icon> {{ client.email }}</p>
+                </div>
+              </div>
+              
+              <div class="actions">
+                <ion-button fill="clear" color="primary" (click)="editClient(client)">
+                  <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+                </ion-button>
+                <ion-button fill="clear" color="danger" (click)="confirmDelete(client)">
+                  <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+                </ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div *ngIf="filteredClients.length === 0" class="empty-state">
+      <ion-icon name="people-outline"></ion-icon>
+      <p>Aucun client trouvé</p>
+      <ion-button fill="outline" (click)="toggleForm()">Ajouter votre premier client</ion-button>
+    </div>
+  </div>
+</ion-content>

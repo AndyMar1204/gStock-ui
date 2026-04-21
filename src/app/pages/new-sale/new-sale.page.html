@@ -80,25 +80,55 @@
       <ion-col size="12" size-lg="4">
         <ion-card class="client-card">
           <ion-card-header>
-            <ion-card-title>Informations Client</ion-card-title>
+            <div class="header-flex">
+              <ion-card-title>Informations Client</ion-card-title>
+              <ion-button *ngIf="!isNewClient" fill="clear" size="small" (click)="clearClientSelection()">
+                Effacer
+              </ion-button>
+            </div>
           </ion-card-header>
           <ion-card-content>
-            <ion-item>
-              <ion-label position="stacked">Nom du client *</ion-label>
-              <ion-input [(ngModel)]="client.name" placeholder="Ex: Jean Dupont"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="stacked">Téléphone *</ion-label>
-              <ion-input [(ngModel)]="client.phone" type="tel" placeholder="+243..."></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="stacked">Email</ion-label>
-              <ion-input [(ngModel)]="client.email" type="email" placeholder="client@exemple.com"></ion-input>
-            </ion-item>
-            <ion-item>
-              <ion-label position="stacked">Adresse</ion-label>
-              <ion-textarea [(ngModel)]="client.address" placeholder="Adresse complète..."></ion-textarea>
-            </ion-item>
+            <!-- Client Search -->
+            <div class="client-search-box">
+              <ion-searchbar 
+                placeholder="Rechercher un client..." 
+                [(ngModel)]="clientSearchTerm"
+                (ionInput)="onClientSearch($event)"
+                [debounce]="300">
+              </ion-searchbar>
+              
+              <ion-list *ngIf="filteredClients.length > 0" class="client-search-results">
+                <ion-item *ngFor="let c of filteredClients" (click)="selectClient(c)" button>
+                  <ion-label>
+                    <h3>{{ c.name }}</h3>
+                    <p>{{ c.phone }}</p>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </div>
+
+            <div class="client-details-grid">
+              <ion-item>
+                <ion-label position="stacked">Nom du client *</ion-label>
+                <ion-input [(ngModel)]="client.name" placeholder="Ex: Jean Dupont" [readonly]="!isNewClient"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Téléphone *</ion-label>
+                <ion-input [(ngModel)]="client.phone" type="tel" placeholder="+243..." [readonly]="!isNewClient"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Email</ion-label>
+                <ion-input [(ngModel)]="client.email" type="email" placeholder="client@exemple.com" [readonly]="!isNewClient"></ion-input>
+              </ion-item>
+              <ion-item>
+                <ion-label position="stacked">Adresse</ion-label>
+                <ion-textarea [(ngModel)]="client.address" placeholder="Adresse complète..." [readonly]="!isNewClient"></ion-textarea>
+              </ion-item>
+            </div>
+
+            <div *ngIf="!isNewClient" class="client-status-badge">
+              <ion-badge color="success">Client existant sélectionné</ion-badge>
+            </div>
           </ion-card-content>
         </ion-card>
 

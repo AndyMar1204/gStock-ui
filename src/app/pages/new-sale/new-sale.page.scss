@@ -46,6 +46,60 @@
 .client-card {
   border-radius: 16px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+
+  .header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .client-search-box {
+    position: relative;
+    margin-bottom: 20px;
+    z-index: 100;
+
+    ion-searchbar {
+      --background: var(--ion-color-light);
+      --border-radius: 12px;
+      padding: 0;
+    }
+
+    .client-search-results {
+      position: absolute;
+      top: 50px;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      border: 1px solid var(--ion-color-light);
+      max-height: 250px;
+      overflow-y: auto;
+      margin: 0;
+    }
+  }
+
+  .client-details-grid {
+    margin-top: 10px;
+    
+    ion-item {
+      --padding-start: 0;
+      --inner-padding-end: 0;
+      margin-bottom: 8px;
+    }
+  }
+
+  .client-status-badge {
+    margin-top: 16px;
+    text-align: center;
+    
+    ion-badge {
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+    }
+  }
 }
 
 .summary-card {

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://diagnostics-sm.onrender.com/api/v1'
+  apiUrl: 'https://g-stock-api.onrender.com/api/v1'
 };
 
 /*

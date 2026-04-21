@@ -1,9 +1,4 @@
-export interface Client {
-  name: string;
-  email: string;
-  phone: string;
-  address: string;
-}
+import { Client } from './client.model';
 
 export interface InvoiceItem {
   productId: number;
@@ -21,3 +16,5 @@ export interface Invoice {
   items: InvoiceItem[];
   totalAmount?: number;
 }
+
+

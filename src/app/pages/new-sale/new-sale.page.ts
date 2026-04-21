@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { InvoiceService } from '../../services/invoice.service';
 import { Product } from '../../models/product.model';
-import { Invoice, InvoiceItem, Client } from '../../models/invoice.model';
+import { Invoice, InvoiceItem } from '../../models/invoice.model';
 import { ToastController, LoadingController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ClientService } from '../../services/client.service';
+import { Client } from '../../models/client.model';
 
 @Component({
   selector: 'app-new-sale',
@@ -21,7 +23,10 @@ export class NewSalePage implements OnInit {
   invoiceType: 'SALE' | 'PROFORMA' = 'SALE';
   
   searchTerm = '';
+  clientSearchTerm = '';
+  filteredClients: Client[] = [];
   loadingData = true;
+  isNewClient = true;
 
   constructor(
     private productService: ProductService,
@@ -29,7 +34,8 @@ export class NewSalePage implements OnInit {
     private toastCtrl: ToastController,
     private loadingCtrl: LoadingController,
     private alertCtrl: AlertController,
-    private router: Router
+    private router: Router,
+    private clientService: ClientService
   ) { }
 
   ngOnInit() {
@@ -57,6 +63,31 @@ export class NewSalePage implements OnInit {
     this.filteredProducts = this.products.filter(p => 
       p.name.toLowerCase().includes(this.searchTerm.toLowerCase())
     ).slice(0, 5);
+  }
+
+  onClientSearch(event: any) {
+    const query = event.detail.value;
+    if (query.length < 2) {
+      this.filteredClients = [];
+      return;
+    }
+    this.clientService.searchClients(query).subscribe(clients => {
+      this.filteredClients = clients;
+    });
+  }
+
+  selectClient(selectedClient: Client) {
+    this.client = { ...selectedClient };
+    this.clientSearchTerm = selectedClient.name;
+    this.filteredClients = [];
+    this.isNewClient = false;
+    this.showToast(`Client ${selectedClient.name} sélectionné`);
+  }
+
+  clearClientSelection() {
+    this.client = { name: '', email: '', phone: '', address: '' };
+    this.clientSearchTerm = '';
+    this.isNewClient = true;
   }
 
   addToCart(product: Product) {
