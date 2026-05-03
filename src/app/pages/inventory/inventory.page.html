@@ -64,10 +64,10 @@
       </ion-item>
 
       <ion-item-options side="end">
-        <ion-item-option color="primary">
+        <ion-item-option color="primary" (click)="editProduct(product)">
           <ion-icon slot="icon-only" name="create-outline"></ion-icon>
         </ion-item-option>
-        <ion-item-option color="danger">
+        <ion-item-option color="danger" (click)="deleteProduct(product)">
           <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
         </ion-item-option>
       </ion-item-options>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { ModalController, ToastController, LoadingController } from '@ionic/angular';
 import { ProductService } from '../../services/product.service';
 import { Product, Category } from '../../models/product.model';
@@ -13,6 +13,8 @@ import { CommonModule } from '@angular/common';
   imports: [IonicModule, FormsModule, CommonModule]
 })
 export class AddProductComponent implements OnInit {
+  @Input() existingProduct?: Product;
+
   product: Product = {
     name: '',
     description: '',
@@ -21,6 +23,7 @@ export class AddProductComponent implements OnInit {
     categoryId: 0
   };
   
+  isEdit = false;
   categories: Category[] = [];
 
   constructor(
@@ -32,6 +35,10 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit() {
     this.loadCategories();
+    if (this.existingProduct) {
+      this.isEdit = true;
+      this.product = { ...this.existingProduct };
+    }
   }
 
   loadCategories() {
@@ -47,26 +54,30 @@ export class AddProductComponent implements OnInit {
     await this.modalCtrl.dismiss();
   }
 
-  async onAddProduct() {
+  async onSave() {
     if (!this.product.name || this.product.price <= 0 || this.product.quantity < 0) {
       this.showToast('Veuillez remplir correctement les champs obligatoires.', 'warning');
       return;
     }
 
     const loader = await this.loadingCtrl.create({
-      message: 'Enregistrement du produit...'
+      message: this.isEdit ? 'Mise à jour du produit...' : 'Enregistrement du produit...'
     });
     await loader.present();
 
-    this.productService.addProduct(this.product).subscribe({
+    const operation = this.isEdit 
+      ? this.productService.updateProduct(this.product.id!, this.product)
+      : this.productService.addProduct(this.product);
+
+    operation.subscribe({
       next: (res) => {
         loader.dismiss();
-        this.showToast('Produit ajouté avec succès !', 'success');
+        this.showToast(this.isEdit ? 'Produit mis à jour !' : 'Produit ajouté !', 'success');
         this.modalCtrl.dismiss(res);
       },
       error: (err) => {
         loader.dismiss();
-        this.showToast('Erreur lors de l\'ajout du produit.', 'danger');
+        this.showToast('Erreur lors de l\'opération.', 'danger');
       }
     });
   }

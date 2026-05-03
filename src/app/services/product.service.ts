@@ -28,4 +28,12 @@ export class ProductService {
   addCategory(category: Category): Observable<Category> {
     return this.http.post<Category>(this.categoriesUrl, category);
   }
+
+  updateProduct(id: number, product: Product): Observable<Product> {
+    return this.http.put<Product>(`${this.apiUrl}/${id}`, product);
+  }
+
+  deleteProduct(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
 }

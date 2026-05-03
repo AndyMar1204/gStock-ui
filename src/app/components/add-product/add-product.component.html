@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar color="primary">
-    <ion-title>Nouveau Produit</ion-title>
+    <ion-title>{{ isEdit ? 'Modifier le Produit' : 'Nouveau Produit' }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="dismiss()">
         <ion-icon slot="icon-only" name="close-outline"></ion-icon>
@@ -48,9 +48,9 @@
     </ion-item>
 
     <div class="action-buttons ion-margin-top">
-      <ion-button expand="block" (click)="onAddProduct()" class="save-btn">
+      <ion-button expand="block" (click)="onSave()" class="save-btn">
         <ion-icon slot="start" name="save-outline"></ion-icon>
-        ENREGISTRER LE PRODUIT
+        {{ isEdit ? 'METTRE À JOUR' : 'ENREGISTRER LE PRODUIT' }}
       </ion-button>
       <ion-button expand="block" fill="clear" color="medium" (click)="dismiss()">
         Annuler

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../../services/product.service';
 import { Product, Category } from '../../models/product.model';
-import { ModalController, ToastController } from '@ionic/angular';
+import { ModalController, ToastController, AlertController } from '@ionic/angular';
 
 import { AddProductComponent } from '../../components/add-product/add-product.component';
 
@@ -23,7 +23,8 @@ export class InventoryPage implements OnInit {
   constructor(
     private productService: ProductService,
     private modalCtrl: ModalController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private alertCtrl: AlertController
   ) { }
 
   ngOnInit() {
@@ -75,7 +76,69 @@ export class InventoryPage implements OnInit {
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      this.loadData(); // Refresh list if product was added
+      this.loadData();
     }
+  }
+
+  async editProduct(product: Product) {
+    const modal = await this.modalCtrl.create({
+      component: AddProductComponent,
+      componentProps: {
+        existingProduct: product
+      },
+      cssClass: 'premium-modal'
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.loadData();
+    }
+  }
+
+  async deleteProduct(product: Product) {
+    const alert = await this.alertCtrl.create({
+      header: 'Confirmer la suppression',
+      message: `Voulez-vous vraiment supprimer le produit "${product.name}" ?`,
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel'
+        },
+        {
+          text: 'Supprimer',
+          role: 'destructive',
+          handler: () => {
+            this.performDelete(product.id!);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  private performDelete(id: number) {
+    this.productService.deleteProduct(id).subscribe({
+      next: () => {
+        this.showToast('Produit supprimé avec succès', 'success');
+        this.loadData();
+      },
+      error: (err) => {
+        console.error('Error deleting product', err);
+        this.showToast('Erreur lors de la suppression', 'danger');
+      }
+    });
+  }
+
+  async showToast(message: string, color: string = 'primary') {
+    const toast = await this.toastCtrl.create({
+      message,
+      duration: 2000,
+      color,
+      position: 'bottom'
+    });
+    toast.present();
   }
 }
