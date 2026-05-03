@@ -23,6 +23,9 @@ export class DashboardPage implements OnInit, AfterViewInit {
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
+  }
+
+  ionViewWillEnter() {
     this.loadStats();
   }
 
@@ -30,19 +33,26 @@ export class DashboardPage implements OnInit, AfterViewInit {
     // We'll initialize charts once data is loaded
   }
 
-  loadStats() {
-    this.loading = true;
+  loadStats(event?: any) {
+    if (!event) this.loading = true;
+    
     this.dashboardService.getStats().subscribe({
       next: (data) => {
         this.stats = data;
         this.loading = false;
         setTimeout(() => this.initCharts(), 100);
+        if (event) event.target.complete();
       },
       error: (err) => {
         console.error('Error loading dashboard stats', err);
         this.loading = false;
+        if (event) event.target.complete();
       }
     });
+  }
+
+  handleRefresh(event: any) {
+    this.loadStats(event);
   }
 
   initCharts() {
