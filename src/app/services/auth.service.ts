@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { TokenService } from './token.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,8 @@ export class AuthService {
 
   constructor(
     private http: HttpClient,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private router: Router
   ) { }
 
   register(user: any): Observable<any> {
@@ -30,9 +32,25 @@ export class AuthService {
 
   logout(): void {
     this.tokenService.clear();
+    this.router.navigate(['/login']);
   }
 
   isLoggedIn(): boolean {
-    return !!this.tokenService.getToken();
+    const token = this.tokenService.getToken();
+    if (!token || this.tokenService.isTokenExpired()) {
+      if (token) {
+        this.logout();
+      }
+      return false;
+    }
+    return true;
+  }
+
+  validateToken(): boolean {
+    if (this.tokenService.isTokenExpired()) {
+      this.logout();
+      return false;
+    }
+    return true;
   }
 }
